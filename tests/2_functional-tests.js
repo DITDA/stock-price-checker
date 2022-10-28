@@ -15,7 +15,7 @@ suite('Functional Tests', function() {
         .query({ stock: 'goog' })
         .end((err, res) => {
           assert.equal(res.status, 200);
-          assert.equal(res.body.stockData.symbol, 'GOOG');
+          assert.equal(res.body.stockData.stock, 'GOOG');
           done();
         });
     });

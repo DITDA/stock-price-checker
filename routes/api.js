@@ -46,21 +46,21 @@ module.exports = function (app, db) {
             if (ip !== '') {
               if (data === null) {
                 stockBase.insertOne({ symbol: singleSymbol, price: (await getStock(stock)).price, likeByIps: [ip] });
-                await res.json({ stockData: { symbol: singleSymbol, price: (await getStock(stock)).price, likes: 1 } });
+                res.json({ stockData: { stock: singleSymbol, price: Number((await getStock(stock)).price), likes: 1 } });
               } else {
                 stockBase.updateOne({ symbol: singleSymbol }, { $set: { price: (await getStock(stock)).price }, $addToSet: { likeByIps: ip } });
                 stockBase.findOne({ symbol: singleSymbol }, (err, d) => {
-                  res.json({ stockData: { symbol: d.symbol, price: d.price, likes: d.likeByIps.length } });
+                  res.json({ stockData: { stock: d.symbol, price: Number(d.price), likes: d.likeByIps.length } });
                 });
               }
             } else {
               if (data === null) {
                 stockBase.insertOne({ symbol: singleSymbol, price: (await getStock(stock)).price, likeByIps: [] });
-                res.json({ stockData: { symbol: singleSymbol, price: (await getStock(stock)).price, likes: 0 } });
+                res.json({ stockData: { stock: singleSymbol, price: Number((await getStock(stock)).price), likes: 0 } });
               } else {
                 stockBase.updateOne({ symbol: singleSymbol }, { $set: { price: (await getStock(stock)).price } });
                 stockBase.findOne({ symbol: singleSymbol }, (err, d) => {
-                  res.json({ stockData: { symbol: d.symbol, price: d.price, likes: d.likeByIps.length } });
+                  res.json({ stockData: { stock: d.symbol, price: Number(d.price), likes: d.likeByIps.length } });
                 });
               }
             }

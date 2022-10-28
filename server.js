@@ -21,6 +21,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}));
 
 mongo.connect((err, db) => {
   if (err) {
